@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <link href="main.css">
+    <link data-require="bootstrap@*" data-semver="4.0.5" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" />
+    <script data-require="bootstrap@*" data-semver="4.0.5" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
+    <script data-require="jquery@3.0.0" data-semver="3.0.0" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.js"></script>
+  <style>
+     html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+      #map{
+        height:500px;
+      }
+  </style>
+</head>
+<body>
+  <div class="row">
+  <div class="col-md-8">
+    <div>
+    <span id="city">Your Location:</span>
+    <span>Enter Destination Location</span><input type="text" id="destination">
+    <span><button class="btn btn-primary">Get the directions</button></span>
+      </div>
+    <div id="map"></div>
+  </div>
+  <div class="col-md-4" id="localWeather"><p>This is for the local weather</p>
+  <div id="iconTemp">
+ <div id="icon"></div>
+ <div id="temp"></div>
+</div>
+
+<div id="weatherWrapper">
+ <div class="location details"></div>
+ <div id="conditions" class="details"></div>
+ <div id="wind" class="details"></div>
+  <div id="postal"></div>
+</div>
+  </div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh9agbEN1fx8Qm5OdmZ8tOpHHaFj4wFbY"></script>
+<script src="app.js"></script>
+</body>
+</html>
