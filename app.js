@@ -6,15 +6,19 @@ var end;
 var units = 'imperial';
 
 function getDirectionsLocation() {
-   $.get('http://ipinfo.io', function(location){
-     showDirectionsPosition(location.loc);
-     getWeather(location,units);
-   },"jsonp");
+    console.log("getDirectionsLocation");
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showDirectionsPosition);
+    } else {
+        z.innerHTML = "Geolocation is not supported by this browser.";
+    }
 }
 function showDirectionsPosition(position) {
-    directionsLatitude = position.split(",")[0];
-    directionsLongitude = position.split(",")[1];
+    console.log("showDirectionsPosition");
+    directionsLatitude = position.coords.latitude;
+    directionsLongitude = position.coords.longitude;
     directionsLatLng = new google.maps.LatLng(directionsLatitude,directionsLongitude);
+    getWeather(position,units)
     getDirections();
 }
 
@@ -48,9 +52,8 @@ function RouteDetails() {
 }
 function getWeather(location, units) {
   debugger;
-    lat = location.loc.split(",")[0] //.toString();
-    lon = location.loc.split(",")[1] //.toString();
-    city = location.city;
+    lat = location.coords.latitude //.toString();
+    lon = location.coords.longitude //.toString();
 
     //var weatherApiUrl = 'http://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + "&units=" + units;
     var weatherApiUrl = 'http://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + "&units=" + units + '&appid=37a77e114c8c172f3675e3503c28aa79';
@@ -58,8 +61,9 @@ function getWeather(location, units) {
     console.log(weatherApiUrl);
 
     $.get(weatherApiUrl, function(weather) {
-      var temperature = weather.main.temp;
-      var unitLabel;
+      var temperature = weather.main.temp,
+        city = weather.name,
+        unitLabel;
 
       //label based in imperial vs metric units
       if (units === "imperial") {
@@ -83,6 +87,7 @@ function getWeather(location, units) {
   };
 
 $( document ).ready(function() {
+    directionsMap = new google.maps.Map(document.getElementById("map"));
     $('.btn').click(function(){
     getDirectionsLocation();
     })
