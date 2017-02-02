@@ -25,7 +25,6 @@ function showDirectionsPosition(position) {
 }
 
 function getDirections() {
-  debugger;
     console.log('getDirections');
     directionsDisplay = new google.maps.DirectionsRenderer();
     var directionsOptions = {
@@ -38,7 +37,6 @@ function getDirections() {
 }
 
 function RouteDetails() {
-  debugger;
     start = directionsLatLng;
     end = $("#destination").val();
     var request = {
@@ -53,14 +51,10 @@ function RouteDetails() {
     });
 }
 function getLocWeather(location, units) {
-  debugger;
     lat = location.coords.latitude //.toString();
     lon = location.coords.longitude //.toString();
 
-    //var weatherApiUrl = 'http://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + "&units=" + units;
     var weatherApiUrl = 'http://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + "&units=" + units + '&appid=37a77e114c8c172f3675e3503c28aa79';
-
-    console.log(weatherApiUrl);
 
     $.get(weatherApiUrl, function(weather) {
       var temperature = weather.main.temp,
@@ -80,16 +74,14 @@ function getLocWeather(location, units) {
       $("#icon").append("<img src='http://openweathermap.org/img/w/" + weather.weather[0].icon + ".png'>");
 
       $("#temp").append(temperature + " " + unitLabel);
-      $("#city").value = city;
+      debugger;
+      $("#city").append("Your Location :" +city);
       $("#conditions").append(weather.weather[0].description);
     }, "jsonp");
   };
 function getDesWeather(des, units) {
-  debugger;
 
     var weatherdesApiUrl = 'http://api.openweathermap.org/data/2.5/weather?q=' + des + "&units=" + units + '&appid=37a77e114c8c172f3675e3503c28aa79';
-
-    console.log(weatherdesApiUrl);
 
    $.get(weatherdesApiUrl, function(weather2) {
       var temperature = weather2.main.temp,
