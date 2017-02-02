@@ -15,10 +15,12 @@ function getDirectionsLocation() {
 }
 function showDirectionsPosition(position) {
     console.log("showDirectionsPosition");
+    var des = $('#destination').val();
     directionsLatitude = position.coords.latitude;
     directionsLongitude = position.coords.longitude;
     directionsLatLng = new google.maps.LatLng(directionsLatitude,directionsLongitude);
-    getWeather(position,units)
+    getLocWeather(position,units);
+    getDesWeather(des,units);
     getDirections();
 }
 
@@ -50,7 +52,7 @@ function RouteDetails() {
         }
     });
 }
-function getWeather(location, units) {
+function getLocWeather(location, units) {
   debugger;
     lat = location.coords.latitude //.toString();
     lon = location.coords.longitude //.toString();
@@ -75,16 +77,44 @@ function getWeather(location, units) {
       temperature = parseFloat((temperature).toFixed(1));
 
       console.log(weather);
-      $('#icon').append("<img src='http://openweathermap.org/img/w/" + weather.weather[0].icon + ".png'>");
+      $("#icon").append("<img src='http://openweathermap.org/img/w/" + weather.weather[0].icon + ".png'>");
 
-      $('#temp').append(temperature + " " + unitLabel);
-      $('#city').append(city);
-      $('#conditions').append(weather.weather[0].description);
-      $('#postal').append(postal);
+      $("#temp").append(temperature + " " + unitLabel);
+      $("#city").value = city;
+      $("#conditions").append(weather.weather[0].description);
+    }, "jsonp");
+  };
+function getDesWeather(des, units) {
+  debugger;
+
+    var weatherdesApiUrl = 'http://api.openweathermap.org/data/2.5/weather?q=' + des + "&units=" + units + '&appid=37a77e114c8c172f3675e3503c28aa79';
+
+    console.log(weatherdesApiUrl);
+
+   $.get(weatherdesApiUrl, function(weather2) {
+      var temperature = weather2.main.temp,
+        city = weather2.name,
+        unitLabel;
+
+      //label based in imperial vs metric units
+      if (units === "imperial") {
+        unitLabel = "F";
+      } else {
+        unitLabel = "C";
+      }
+
+      temperature = parseFloat((temperature).toFixed(1));
+
+      console.log(weather2);
+      $("#icon2").append("<img src='http://openweathermap.org/img/w/" + weather2.weather[0].icon + ".png'>");
+
+      $("#temp2").append(temperature + " " + unitLabel);
+      $("#city2").value = city;
+      $("#conditions2").append(weather2.weather[0].description);
 
     }, "jsonp");
-
   };
+   
 
 $( document ).ready(function() {
     directionsMap = new google.maps.Map(document.getElementById("map"));
